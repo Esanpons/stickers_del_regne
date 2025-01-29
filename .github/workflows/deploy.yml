@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main # Canvia-ho si tens una altra branca principal
+      - main # Canvia-ho si la teva branca principal és diferent
 
 jobs:
   build:
@@ -21,6 +21,12 @@ jobs:
       - name: 🔄 Generar stickers.json
         run: node generate_stickers.js
 
+      - name: 📂 Comprovar i afegir stickers.json al commit
+        run: |
+          ls -l stickers.json  # Comprova si stickers.json existeix
+          git add stickers.json
+          git commit -m "Afegit stickers.json" || echo "Cap canvi a commitar"
+
       - name: Configurar Git
         run: |
           git config --global user.name "github-actions[bot]"
@@ -30,5 +36,6 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: . # Carpeta amb el contingut a desplegar
-          clean: true
+          folder: .
+          clean: false # Evita que esborri stickers.json si ja existeix
+          token: ${{ secrets.GITHUB_TOKEN }}
