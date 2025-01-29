@@ -2,9 +2,9 @@ document.addEventListener("DOMContentLoaded", function() {
     const stickerContainer = document.getElementById("sticker-container");
 
     const stickers = [
-        "sticker1.png",
-        "sticker2.png",
-        "sticker3.png"
+        "sticker1.webp",
+        "sticker2.webp",
+        "sticker3.webp"
     ];
 
     stickers.forEach(sticker => {
