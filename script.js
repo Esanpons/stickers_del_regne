@@ -50,8 +50,25 @@ async function getImageFile(url, filename) {
         fetch(url)
             .then(response => response.blob())
             .then(blob => {
-                resolve(new File([blob], filename, { type: blob.type }));
+                // Convertir a PNG si és webp
+                if (blob.type === "image/webp") {
+                    const img = document.createElement("img");
+                    img.src = URL.createObjectURL(blob);
+                    img.onload = () => {
+                        const canvas = document.createElement("canvas");
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        const ctx = canvas.getContext("2d");
+                        ctx.drawImage(img, 0, 0);
+                        canvas.toBlob((pngBlob) => {
+                            resolve(new File([pngBlob], filename.replace(".webp", ".png"), { type: "image/png" }));
+                        }, "image/png");
+                    };
+                } else {
+                    resolve(new File([blob], filename, { type: blob.type }));
+                }
             })
             .catch(error => reject(error));
     });
 }
+
