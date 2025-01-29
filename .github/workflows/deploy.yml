@@ -19,18 +19,31 @@ jobs:
           node-version: 18
 
       - name: 🔄 Generar stickers.json
-        run: node generate_stickers.js
+        run: |
+          node generate_stickers.js
+          echo "📋 Verificant stickers.json..."
+          ls -l stickers.json || echo "❌ ERROR: stickers.json NO s'ha creat!"
 
       - name: 📂 Comprovar i afegir stickers.json al commit
         run: |
-          ls -l stickers.json  # Comprova si stickers.json existeix
-          git add stickers.json
-          git commit -m "Afegit stickers.json" || echo "Cap canvi a commitar"
+          if [ -f stickers.json ]; then
+            echo "✅ stickers.json existeix!"
+            git add stickers.json
+            git commit -m "Afegit stickers.json" || echo "ℹ️ Cap canvi a commitar"
+          else
+            echo "❌ ERROR: stickers.json NO S'HA CREAT!"
+            exit 1  # Aturar el workflow si el fitxer no s'ha generat
+          fi
 
       - name: Configurar Git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: 📁 Comprovar fitxers abans del deploy
+        run: |
+          echo "📋 Contingut del directori abans del deploy:"
+          ls -la
 
       - name: 🚀 Deploy a GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
