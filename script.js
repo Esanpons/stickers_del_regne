@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     const stickerContainer = document.getElementById("sticker-container");
 
+    // Llista dels stickers
     const stickers = [
         "sticker1.webp",
         "sticker2.webp",
@@ -15,60 +16,41 @@ document.addEventListener("DOMContentLoaded", function() {
         img.src = `stickers/${sticker}`;
         img.alt = sticker;
 
+        // Botó per compartir per enllaç
         const shareButton = document.createElement("button");
         shareButton.classList.add("share-button");
         shareButton.innerText = "Compartir";
 
-        shareButton.addEventListener("click", async () => {
-            try {
-                const file = await getImageFile(img.src, sticker);
-                
-                if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                    await navigator.share({
-                        title: "Sticker",
-                        text: "Mira aquest sticker!",
-                        files: [file]
-                    });
-                } else {
-                    alert("El teu dispositiu no suporta compartir fitxers.");
-                }
-            } catch (error) {
-                console.error("Error en compartir:", error);
-                alert("No s'ha pogut compartir el sticker.");
+        shareButton.addEventListener("click", () => {
+            if (navigator.share) {
+                navigator.share({
+                    title: "Sticker",
+                    text: "Mira aquest sticker!",
+                    url: img.src // Compartim l'URL en comptes del fitxer
+                }).catch(err => console.error("Error en compartir:", err));
+            } else {
+                alert("El teu navegador no suporta compartir.");
             }
         });
 
+        // Botó per descarregar el sticker
+        const downloadButton = document.createElement("button");
+        downloadButton.classList.add("download-button");
+        downloadButton.innerText = "Descarregar";
+
+        downloadButton.addEventListener("click", () => {
+            const link = document.createElement("a");
+            link.href = img.src;
+            link.download = sticker; // Assignem el nom del fitxer per descarregar
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+
+        // Afegim elements al div del sticker
         stickerDiv.appendChild(img);
         stickerDiv.appendChild(shareButton);
+        stickerDiv.appendChild(downloadButton);
         stickerContainer.appendChild(stickerDiv);
     });
 });
-
-// Funció per convertir una imatge en un fitxer abans de compartir-la
-async function getImageFile(url, filename) {
-    return new Promise((resolve, reject) => {
-        fetch(url)
-            .then(response => response.blob())
-            .then(blob => {
-                // Convertir a PNG si és webp
-                if (blob.type === "image/webp") {
-                    const img = document.createElement("img");
-                    img.src = URL.createObjectURL(blob);
-                    img.onload = () => {
-                        const canvas = document.createElement("canvas");
-                        canvas.width = img.width;
-                        canvas.height = img.height;
-                        const ctx = canvas.getContext("2d");
-                        ctx.drawImage(img, 0, 0);
-                        canvas.toBlob((pngBlob) => {
-                            resolve(new File([pngBlob], filename.replace(".webp", ".png"), { type: "image/png" }));
-                        }, "image/png");
-                    };
-                } else {
-                    resolve(new File([blob], filename, { type: blob.type }));
-                }
-            })
-            .catch(error => reject(error));
-    });
-}
-
