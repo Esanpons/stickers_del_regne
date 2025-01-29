@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main # O el nom de la teva branca principal
+      - main # Canvia-ho si tens una altra branca principal
 
 jobs:
   build:
@@ -21,8 +21,14 @@ jobs:
       - name: 🔄 Generar stickers.json
         run: node generate_stickers.js
 
+      - name: Configurar Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: 🚀 Deploy a GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: gh-pages # Branca on GitHub Pages està activat
-          folder: . # Desplegar tota la web
+          branch: gh-pages
+          folder: . # Carpeta amb el contingut a desplegar
+          clean: true
