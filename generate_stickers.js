@@ -15,6 +15,6 @@ fs.readdir(stickersPath, (err, files) => {
     }
 
     const jsonContent = JSON.stringify({ stickers }, null, 2);
-    fs.writeFileSync(path.join(__dirname, 'stickers.json'), jsonContent, 'utf8');
-    console.log("✅ stickers.json generat correctament!");
+    fs.writeFileSync(path.join(__dirname, 'sicker.json'), jsonContent, 'utf8');
+    console.log("✅ sicker.json generat correctament!");
 });

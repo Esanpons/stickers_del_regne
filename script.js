@@ -1,13 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
     const stickerContainer = document.getElementById("sticker-container");
 
-    // Carregar stickers des del fitxer stickers.json
-    fetch("stickers.json")
+    // Carregar stickers des del fitxer sicker.json
+    fetch("sicker.json")
         .then(response => response.json())
         .then(data => {
             // Comprovar si hi ha stickers disponibles
             if (!data.stickers || data.stickers.length === 0) {
-                console.warn("⚠️ No s'han trobat stickers a stickers.json");
+                console.warn("⚠️ No s'han trobat stickers a sicker.json");
                 return;
             }
 
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 shareButton.innerText = "Compartir";
 
                 shareButton.addEventListener("click", () => {
-                    // Comprovar si el navegador suporta l'API de compartir fitxers
+                    // Comprova si el navegador suporta l'API de compartir fitxers
                     if (navigator.share && navigator.canShare) {
                         fetch(img.src)
                             .then(response => response.blob())
@@ -55,5 +55,5 @@ document.addEventListener("DOMContentLoaded", function () {
                 stickerContainer.appendChild(stickerDiv);
             });
         })
-        .catch(error => console.error("❌ Error carregant stickers.json:", error));
+        .catch(error => console.error("❌ Error carregant sicker.json:", error));
 });

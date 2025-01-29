@@ -18,20 +18,20 @@ jobs:
         with:
           node-version: 18
 
-      - name: 🔄 Generar stickers.json
+      - name: 🔄 Generar sicker.json
         run: |
-          node generate_stickers.js
-          echo "📋 Verificant stickers.json..."
-          ls -l stickers.json || echo "❌ ERROR: stickers.json NO s'ha creat!"
+          node generate_sicker.js
+          echo "📋 Verificant sicker.json..."
+          ls -l sicker.json || echo "❌ ERROR: sicker.json NO s'ha creat!"
 
-      - name: 📂 Comprovar i afegir stickers.json al commit
+      - name: 📂 Comprovar i afegir sicker.json al commit
         run: |
-          if [ -f stickers.json ]; then
-            echo "✅ stickers.json existeix!"
-            git add stickers.json
-            git commit -m "Afegit stickers.json" || echo "ℹ️ Cap canvi a commitar"
+          if [ -f sicker.json ]; then
+            echo "✅ sicker.json existeix!"
+            git add sicker.json
+            git diff --cached --exit-code || git commit -m "Afegit sicker.json"
           else
-            echo "❌ ERROR: stickers.json NO S'HA CREAT!"
+            echo "❌ ERROR: sicker.json NO S'HA CREAT!"
             exit 1  # Aturar el workflow si el fitxer no s'ha generat
           fi
 
@@ -50,5 +50,5 @@ jobs:
         with:
           branch: gh-pages
           folder: .
-          clean: false # Evita que esborri stickers.json si ja existeix
+          clean: false # Evita que esborri sicker.json si ja existeix
           token: ${{ secrets.GITHUB_TOKEN }}
