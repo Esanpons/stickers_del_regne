@@ -20,25 +20,21 @@ document.addEventListener("DOMContentLoaded", function() {
         shareButton.innerText = "Compartir";
 
         shareButton.addEventListener("click", async () => {
-            if (navigator.share) {
-                try {
-                    // Convertir la imatge en un fitxer abans de compartir-la
-                    const response = await fetch(img.src);
-                    const blob = await response.blob();
-                    const file = new File([blob], sticker, { type: blob.type });
-
+            try {
+                const file = await getImageFile(img.src, sticker);
+                
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
                     await navigator.share({
                         title: "Sticker",
                         text: "Mira aquest sticker!",
                         files: [file]
                     });
-
-                } catch (error) {
-                    console.error("Error en compartir:", error);
-                    alert("No s'ha pogut compartir el sticker.");
+                } else {
+                    alert("El teu dispositiu no suporta compartir fitxers.");
                 }
-            } else {
-                alert("El teu navegador no suporta compartir.");
+            } catch (error) {
+                console.error("Error en compartir:", error);
+                alert("No s'ha pogut compartir el sticker.");
             }
         });
 
@@ -47,3 +43,15 @@ document.addEventListener("DOMContentLoaded", function() {
         stickerContainer.appendChild(stickerDiv);
     });
 });
+
+// Funció per convertir una imatge en un fitxer abans de compartir-la
+async function getImageFile(url, filename) {
+    return new Promise((resolve, reject) => {
+        fetch(url)
+            .then(response => response.blob())
+            .then(blob => {
+                resolve(new File([blob], filename, { type: blob.type }));
+            })
+            .catch(error => reject(error));
+    });
+}
