@@ -1,11 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
     const stickerContainer = document.getElementById("sticker-container");
 
-    // Stickers disponibles (posa aquí els noms de les imatges dins /stickers/)
     const stickers = [
-        "sticker1.webp",
-        "sticker2.webp",
-        "sticker3.webp"
+        "sticker1.png",
+        "sticker2.png",
+        "sticker3.png"
     ];
 
     stickers.forEach(sticker => {
@@ -20,13 +19,24 @@ document.addEventListener("DOMContentLoaded", function() {
         shareButton.classList.add("share-button");
         shareButton.innerText = "Compartir";
 
-        shareButton.addEventListener("click", () => {
+        shareButton.addEventListener("click", async () => {
             if (navigator.share) {
-                navigator.share({
-                    title: "Sticker",
-                    text: "Mira aquest sticker!",
-                    files: [new File([img.src], sticker, { type: "image/png" })]
-                }).catch(err => console.error("Error en compartir:", err));
+                try {
+                    // Convertir la imatge en un fitxer abans de compartir-la
+                    const response = await fetch(img.src);
+                    const blob = await response.blob();
+                    const file = new File([blob], sticker, { type: blob.type });
+
+                    await navigator.share({
+                        title: "Sticker",
+                        text: "Mira aquest sticker!",
+                        files: [file]
+                    });
+
+                } catch (error) {
+                    console.error("Error en compartir:", error);
+                    alert("No s'ha pogut compartir el sticker.");
+                }
             } else {
                 alert("El teu navegador no suporta compartir.");
             }
