@@ -18,11 +18,25 @@ jobs:
         with:
           node-version: 18
 
+      - name: 🔄 Comprovar si generate_sicker.js existeix
+        run: |
+          if [ -f generate_sicker.js ]; then
+            echo "✅ generate_sicker.js trobat!"
+          else
+            echo "❌ ERROR: generate_sicker.js NO EXISTEIX!"
+            exit 1
+          fi
+
       - name: 🔄 Generar sicker.json
         run: |
-          node generate_sicker.js
+          node generate_sicker.js  # Ara sí que utilitza el fitxer correcte
           echo "📋 Verificant sicker.json..."
           ls -l sicker.json || echo "❌ ERROR: sicker.json NO s'ha creat!"
+
+      - name: Configurar Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: 📂 Comprovar i afegir sicker.json al commit
         run: |
@@ -32,13 +46,8 @@ jobs:
             git diff --cached --exit-code || git commit -m "Afegit sicker.json"
           else
             echo "❌ ERROR: sicker.json NO S'HA CREAT!"
-            exit 1  # Aturar el workflow si el fitxer no s'ha generat
+            exit 1
           fi
-
-      - name: Configurar Git
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: 📁 Comprovar fitxers abans del deploy
         run: |
