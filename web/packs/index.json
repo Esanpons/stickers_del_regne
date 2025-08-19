@@ -1,5 +1,5 @@
 {
-    "packs": {
-        "regne": "regne/pack.json"
-    }
+    "packs": [
+        "regne/pack.json"
+    ]
 }
