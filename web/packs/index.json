@@ -1,5 +1,7 @@
 {
-    "packs": [
-        "regne/pack.json"
-    ]
+  "packs": [
+    "regne/pack.json",
+    "regne.json"
+  ],
+  "homeserver_url": "https://synapse.bcnet.io"
 }
