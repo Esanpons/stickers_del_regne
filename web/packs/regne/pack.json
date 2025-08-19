@@ -1,0 +1,21 @@
+{
+    "id": "regne",
+    "name": "Stickers del Regne",
+    "stickers": [
+        {
+            "id": "sticker1",
+            "file": "sticker1.webp",
+            "body": "sticker1"
+        },
+        {
+            "id": "sticker2",
+            "file": "sticker2.webp",
+            "body": "sticker2"
+        },
+        {
+            "id": "sticker3",
+            "file": "sticker3.webp",
+            "body": "sticker3"
+        }
+    ]
+}

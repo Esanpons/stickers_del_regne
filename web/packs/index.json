@@ -1,0 +1,9 @@
+{
+    "packs": [
+        {
+            "id": "regne",
+            "name": "Stickers del Regne",
+            "path": "regne/pack.json"
+        }
+    ]
+}
