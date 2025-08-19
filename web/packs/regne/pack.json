@@ -1,29 +1,27 @@
 {
     "id": "regne",
     "name": "Stickers del Regne",
-    "thumbnail": "sticker1.webp",
+    "thumbnail": {
+        "file": "sticker1.webp"
+    },
     "stickers": [
         {
             "id": "sticker1",
             "file": "sticker1.webp",
-            "body": "sticker1",
-            "info": {
-                "mimetype": "image/webp",
-                "w": 256,
-                "h": 256,
-                "size": 12345
-            }
+            "url": "sticker1.webp",
+            "body": "sticker1"
         },
         {
             "id": "sticker2",
             "file": "sticker2.webp",
-            "body": "sticker2",
-            "info": {
-                "mimetype": "image/webp",
-                "w": 256,
-                "h": 256,
-                "size": 23456
-            }
+            "url": "sticker2.webp",
+            "body": "sticker2"
+        },
+        {
+            "id": "sticker3",
+            "file": "sticker3.webp",
+            "url": "sticker3.webp",
+            "body": "sticker3"
         }
     ]
 }
