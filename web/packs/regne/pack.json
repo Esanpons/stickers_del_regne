@@ -1,6 +1,7 @@
 {
     "id": "regne",
     "name": "Stickers del Regne",
+    "thumbnail": "sticker1.webp",
     "stickers": [
         {
             "id": "sticker1",
