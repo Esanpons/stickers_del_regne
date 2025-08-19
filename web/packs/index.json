@@ -1,6 +1,10 @@
 {
     "homeserver_url": "https://matrix-client.matrix.org",
     "packs": [
-        "regne/pack.json"
+        {
+            "id": "regne",
+            "name": "Stickers del Regne",
+            "path": "regne/pack.json"
+        }
     ]
 }
